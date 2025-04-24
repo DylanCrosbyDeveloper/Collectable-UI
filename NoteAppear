@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class NoteAppear : MonoBehaviour
+{
+    [SerializeField]
+    private RawImage _noteImage;
+    public KeyCode PickUp;
+    public KeyCode PickDown;
+    public Camera PlayerCamera;
+
+    float Distance;
+    public float DetectionRadius;
+    public GameObject Gameobject;
+    public GameObject Player;
+
+    void Start()
+    {
+        _noteImage.enabled = false;
+    }
+    void Update()
+    {
+        Distance = Vector3.Distance(Player.transform.position, Gameobject.transform.position);
+        RaycastHit hit;
+        Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            MeshCollider mc = hit.collider as MeshCollider;
+
+            if (Distance <= DetectionRadius)
+            {
+                if (mc.gameObject.tag == "Notes")
+                {
+                    if (Input.GetKeyDown(PickUp) && hit.collider as MeshCollider)
+                    {
+                        gameObject.SetActive(false);
+                        _noteImage.enabled = true;
+                    }
+
+
+                }
+
+            }
+            
+            
+            
+        }
+
+    }
+
+
+
+}
